@@ -1,0 +1,79 @@
+#include<stdlib.h>
+#include<string.h>
+#include<stdio.h>
+
+//加密
+int kaisa_encrypt(const char *str1,char *str2,const int len)
+{
+    int i=0;
+    if(str1==NULL||str2==NULL||len<=0)
+    {
+        return -1;
+    }
+    int m=strlen(str1);
+    if(m<=0)
+    {
+        return -1;
+    }
+    for(i=0;i<m;i++)
+    {
+        if(str1[i]>='a'&&str1[i]<='z')
+        {
+            str2[i]='a'+(str1[i]-'a'+len)%26;
+        }
+        else
+        {
+            str2[i]=str1[i];
+        }
+    }
+    return 0;
+}
+
+//解密
+int kaisa_decrypt(const char* str2,char* str3, const int len)
+{
+    int i;
+    char all_letter[26]="abcdefghijklmnopqrstuvwxyz";
+    if(str3==NULL||str2==NULL||len<=0)
+    {
+        return -1;
+    }
+    int m=strlen(str2);
+    if(m<=0)
+    {
+        return -1;
+    }
+    for(i=0;i<m;i++)
+    {
+        if(str2[i]>=all_letter[len]&&str2[i]<='Z')
+        {
+            str3[i]=str2[i]-len;
+        }
+        else if(str2[i]>='a'&&str2[i]<all_letter[len])
+        {
+            str3[i]==str2[i]+(26-len);
+        }
+        else
+        {
+            str3[i]=str2[i];
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    char str1[100];
+    char str2_encrypt[100];
+    char str3_decrypt[100];
+    printf("请输入您需要编码的句子：\n");
+    gets(str1);
+    //加密
+    kaisa_encrypt(str1,str2_encrypt,3);
+    printf("原文%s-->密文%s\n",str1,str2_encrypt);
+    //解密
+    kaisa_decrypt(str2_encrypt,str3_decrypt,3);
+    printf("密文%s-->原文%s\n",str2_encrypt,str3_decrypt);
+
+    return 0;
+}
